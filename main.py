@@ -24,9 +24,21 @@ def translate_to_japanese(texts):
     if not texts:
         return[]
     
+    # 1. 公式キーで取得を試みる
     PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
+
+    # 2. 公式キーで取得できなかった場合、古い代替キーで試行
+    if PROJECT_ID is None:
+        PROJECT_ID = os.environ.get("GCP_PROJECT")
+        print(f"DEBUG: GOOGLE_CLOUD_PROJECT was None. Trying GCP_PROJECT: '{PROJECT_ID}'")
+
+    # 3. どちらのキーでも取得できなかった場合の処理
+    if PROJECT_ID is None:
+        print("FATAL ERROR: Neither GOOGLE_CLOUD_PROJECT nor GCP_PROJECT is set. Translation will fail.")
+        # この時点でエラーになることを確定させるため、無効な値を返す
+        return []
+    
     TRANSLATE_PARENT = f"projects/{PROJECT_ID}/locations/global"
-    print(f"DEBUG: Using PROJECT_ID: '{PROJECT_ID}'")
 
     translate_client = translate.TranslationServiceClient()
     
