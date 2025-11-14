@@ -9,7 +9,7 @@ vision_client = vision.ImageAnnotatorClient()
 
 translate_client = translate.TranslationServiceClient()
 
-PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
+PROJECT_ID = os.environ.get("GCP_PROJECT")
 TRANSLATE_PARENT = f"projects/{PROJECT_ID}/locations/global"
 print(f"DEBUG: Using PROJECT_ID: '{PROJECT_ID}'")
 
