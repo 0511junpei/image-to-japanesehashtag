@@ -9,10 +9,6 @@ vision_client = vision.ImageAnnotatorClient()
 
 translate_client = translate.TranslationServiceClient()
 
-PROJECT_ID = os.environ.get("GCP_PROJECT")
-TRANSLATE_PARENT = f"projects/{PROJECT_ID}/locations/global"
-print(f"DEBUG: Using PROJECT_ID: '{PROJECT_ID}'")
-
 def detect_labels(image_base64):
     image = vision.Image(content=image_base64)
     features = [
@@ -28,6 +24,9 @@ def detect_labels(image_base64):
     return labels
 
 def translate_to_japanese(texts):
+    PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT")
+    TRANSLATE_PARENT = f"projects/{PROJECT_ID}/locations/global"
+
     if not texts:
         return[]
     
